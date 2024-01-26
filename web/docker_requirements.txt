@@ -1,0 +1,15 @@
+# boto3
+# celery
+psycopg2-binary
+channels
+# daphne
+django
+django-cors-headers
+django-import-export
+djangorestframework
+djoser
+drf-yasg
+gunicorn
+pillow
+python-decouple
+requests

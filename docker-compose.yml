@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    image: kube_proj:v1
+    environment:
+      - PORT=8020
+    env_file:
+      - web/.env
+    ports:
+      - "8001:8020"
+      - "5432:5432"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+
+
+  redis_db:
+      image: redis
+      restart: always
+      expose:
+        - 6380
+      ports:
+        - "6379:6379"
+      volumes:
+          - redis_data:/data
+      entrypoint: redis-server --appendonly yes --port 6379
+
+volumes:
+  redis_data:
